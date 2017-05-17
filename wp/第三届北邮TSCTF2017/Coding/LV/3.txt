@@ -1,0 +1,300 @@
+Give me your choice:
+ ret = 28
+8 94
+8
+
+653-- Okay, I still have chance
+--------------------Round 46--------------------
+620 86
+ ret = 82
+620 86
+11
+
+654-- left 535
+Give me your choice:
+ ret = 30
+535 86
+13
+
+655-- left 519
+Give me your choice:
+ ret = 30
+519 86
+84
+
+656-- left 397
+Give me your choice:
+ ret = 30
+397 86
+49
+
+657-- left 263
+Give me your choice:
+ ret = 30
+263 86
+2
+
+658-- left 197
+Give me your choice:
+ ret = 30
+197 86
+23
+
+659-- left 95
+Give me your choice:
+ ret = 29
+95 86
+8
+
+660-- left 50
+Give me your choice:
+ ret = 29
+50 86
+50
+
+661-- Okay, I still have chance
+--------------------Round 47--------------------
+14 4
+Give me your choice: ret = 100
+14 4
+4
+
+662-- left 6
+Give me your choice:
+ ret = 28
+6 4
+1
+
+663-- left 2
+Give me your choice:
+ ret = 28
+2 4
+2
+
+664-- Okay, I still have chance
+--------------------Round 48--------------------
+578 72
+ ret = 82
+578 72
+67
+
+665-- left 484
+Give me your choice:
+ ret = 30
+484 72
+46
+
+666-- left 434
+Give me your choice:
+ ret = 30
+434 72
+69
+
+667-- left 297
+Give me your choice:
+ ret = 30
+297 72
+5
+
+668-- left 282
+Give me your choice:
+ ret = 30
+282 72
+63
+
+669-- left 206
+Give me your choice:
+ ret = 30
+206 72
+60
+
+670-- left 85
+Give me your choice:
+ ret = 29
+85 72
+12
+
+671-- left 1
+Give me your choice:
+ ret = 28
+1 72
+1
+
+672-- Okay, I still have chance
+--------------------Round 49--------------------
+560 84
+Give me your choice:
+ ret = 103
+560 84
+50
+
+673-- left 503
+Give me your choice:
+ ret = 30
+503 84
+78
+
+674-- left 380
+Give me your choice:
+ ret = 30
+380 84
+40
+
+675-- left 329
+Give me your choice:
+ ret = 30
+329 84
+74
+
+676-- left 248
+Give me your choice:
+ ret = 30
+248 84
+78
+
+677-- left 102
+Give me your choice:
+ ret = 30
+102 84
+17
+
+678-- left 44
+Give me your choice:
+ ret = 29
+44 84
+44
+
+679-- Okay, I still have chance
+--------------------Round 50--------------------
+508 24
+Give me your choice: ret = 102
+508 24
+8
+
+680-- left 491
+Give me your choice:
+ ret = 30
+491 24
+16
+
+681-- left 466
+Give me your choice:
+ ret = 30
+466 24
+16
+
+682-- left 433
+Give me your choice:
+ ret = 30
+433 24
+8
+
+683-- left 421
+Give me your choice:
+ ret = 30
+421 24
+21
+
+684-- left 383
+Give me your choice:
+ ret = 30
+383 24
+8
+
+685-- left 357
+Give me your choice:
+ ret = 30
+357 24
+7
+
+686-- left 336
+Give me your choice:
+ ret = 30
+336 24
+11
+
+687-- left 304
+Give me your choice:
+ ret = 30
+304 24
+4
+
+688-- left 297
+Give me your choice:
+ ret = 30
+297 24
+22
+
+689-- left 260
+Give me your choice:
+ ret = 30
+260 24
+10
+
+690-- left 237
+Give me your choice:
+ ret = 30
+237 24
+12
+
+691-- left 224
+Give me your choice:
+ ret = 30
+224 24
+24
+
+692-- left 193
+Give me your choice:
+ ret = 30
+193 24
+18
+
+693-- left 163
+Give me your choice:
+ ret = 30
+163 24
+13
+
+694-- left 131
+Give me your choice:
+ ret = 30
+131 24
+6
+
+695-- left 115
+Give me your choice:
+ ret = 30
+115 24
+15
+
+696-- left 93
+Give me your choice:
+ ret = 29
+93 24
+18
+
+697-- left 70
+Give me your choice:
+ ret = 29
+70 24
+20
+
+698-- left 36
+Give me your choice:
+ ret = 29
+36 24
+11
+
+699-- left 6
+Give me your choice:
+ ret = 28
+6 24
+6
+
+700-- You are the king of Vegas
+flag is TSCTF{u_R_K!ng_0f_L4s_Vegas}
+ ret = 63
+You are the king of Vegas
+flag is TSCTF{u_R_K!ng_0f_L4s_Vegas}
+
+Press any key to continue

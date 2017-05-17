@@ -1,0 +1,11 @@
+随便注册一个账户，没钱。
+
+由聊天室内容可知，Tom有钱。
+
+买东西的时候提交了一个 sid.
+
+又发现，重置密码时无论是否成功都会返回目标账户的 sid. (Tom 的 sid 是 dd178b7ec0462e04baf4d9dab2a2ee64)
+
+用 Tom 的 sid 买 flag:
+
+TSCTF{The_network_is_infinitely_broad}
