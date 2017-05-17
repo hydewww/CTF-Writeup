@@ -1,10 +1,3 @@
----
-title: TSCTF2017
-date: 2017-05-17 01:01:27
-tags: [CTF,Writeup,Misc,Web]
-categories: Writeup
----
-
 # TSCTF2017 Writeup
 
 
