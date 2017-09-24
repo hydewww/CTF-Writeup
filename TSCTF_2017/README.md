@@ -4,21 +4,21 @@
 
 ### Logo
 
-![logo](http://blog-1252791275.pictj.myqcloud.com/Logo.png)
+![logo](images/logo.png)
 
 用Hex查看 图片信息结束后是一串字符 结尾是==  用base64解密得到flag
 
 ### 神秘的文件
 
 pcapng格式，百度得知是wireshark文件。跟着百度现学现卖，follow tcp流，总共有4组Stream。
-1.	Stream2是Md5密文 带有字典 MD5Crack得密码ah%kyq$
+1.  Stream2是Md5密文 带有字典 MD5Crack得密码ah%kyq$
    ![1](http://blog-1252791275.pictj.myqcloud.com/image001.png)
 
-2.	Stream3开头为PK…  Zip格式  用winhex拉出来得到加密的zip
-  ![2](http://blog-1252791275.pictj.myqcloud.com/image002.jpg)
+   2.Stream3开头为PK…  Zip格式  用winhex拉出来得到加密的zip
+     ![2](http://blog-1252791275.pictj.myqcloud.com/image002.jpg)
 
-3.	输入密码得到flag.txt  base64解密得flag
-  ![3](http://blog-1252791275.pictj.myqcloud.com/image003.png)
+   3.输入密码得到flag.txt  base64解密得flag
+     ![3](http://blog-1252791275.pictj.myqcloud.com/image003.png)
 
 ### 四维码（未完成）
 
@@ -28,17 +28,17 @@ pcapng格式，百度得知是wireshark文件。跟着百度现学现卖，follo
 > HINT 2:如果脑洞不够大，多用搜索引擎搜搜看！
 > HINT 3:谷歌搜图？
 
-![1](http://blog-1252791275.pictj.myqcloud.com/四维码1.gif)
+![4d_1](images/4d_code_1.gif)
 
 1. 图1为13帧的二维码gif 每帧扫码得两位组合[www.twitter.com/pinkotsctf](www.twitter.com/pinkotsctf) 得图2
 
-![2](http://blog-1252791275.pictj.myqcloud.com/四维码2.png)
+![4d_2](images/4d_code_2.png)
 
 2. 扫套娃的二维码得NNSXSPLROJRW6ZDF
   根据hint2 3 谷歌搜图搜到玄武实验室 再跳转到github上的matroschka加密算法 
   https://github.com/fbngrm/Matroschka 看readme得知需要password
 
-![3](http://blog-1252791275.pictj.myqcloud.com/四维码3 secret-image.png)
+![4d_3](images/4d_code_3.png)
 
 3. 图三可看出是二维码 用stegsolve加深后可得一串二进制 共231位
 

