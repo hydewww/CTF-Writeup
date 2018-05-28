@@ -77,9 +77,11 @@ You are not in ClA55!!!!, You are hanging outside!!!
 
 ![buy_flag_script](images/buy_flag_script.png)
 
-用正常年龄注册几个账号发现主页中都是显示 `There are littleprince,maihuochaidexiaonvhai,meirenyu.etc that are younger than you have been registered too!` ，尝试用16进制数0x17作为年龄注册，发现显示的内容改变为 ` There are bbb,admin_admin2,a_1.etc that are younger than you have been registered too! ` ，怀疑年龄处存在sql注入
+用正常年龄注册几个账号发现主页中都是显示 `There are littleprince,maihuochaidexiaonvhai,meirenyu.etc that are younger than you have been registered too!` ，尝试用16进制数0x17作为年龄注册，发现显示的内容改变为 ` There are bbb,admin_admin2,a_1.etc that are younger than you have been registered too! ` ，怀疑年龄处存在sql注入，强网杯2018的three hit既视感
 
-将 `-1' and ascii(substr((select database()),1,1))>0#` 转成16进制注册，查看弹窗script处的代码，显示 `else if(-1' and ascii(substr((select database()),1,1))>0#>18){...` ，由此可知没有waf，而主页显示 `There are asdf,bbb,123456.etc that... ` （由于做的较早，在注册了几个账号以后才发现这是正确的回显，这几个账号都是我的233）；将 `-1' and ascii(substr((select database()),1,1))=0#` 转成16进制注册，显示  `There are 0 that... ` ，这是错误回显
+将 `-1 and ascii(substr((select database()),1,1))>0#` 转成16进制注册，查看弹窗script处的代码，显示 `else if(-1 and ascii(substr((select database()),1,1))>0#>18){...` ，由此可知没有waf，而主页显示 `There are asdf,bbb,123456.etc that... ` （由于做的较早，在注册了几个账号以后才发现这是正确的回显，这几个账号都是我的233）；将 `-1 and ascii(substr((select database()),1,1))=0#` 转成16进制注册，仍然显示  `There are asdf,bbb,123456.etc that... ` ，可达鸭眉头一皱，发现事情并不简单
+
+怀疑sql语句为 `age < '$age'` ，将 `-1' and ascii(substr((select database()),1,1))=0#` 转成16进制注册，显示  `There are 0 that... ` ，这是错误回显
 
 以上就是sql盲注的两种回显，然后参考 http://pupiles.com/qiangwangbei.html 的脚本，跑出flag `TSCTF{SiBmpe_Sql_f0r_Y0u}`
 
